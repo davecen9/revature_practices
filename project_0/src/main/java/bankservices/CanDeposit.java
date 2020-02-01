@@ -1,5 +1,7 @@
 package bankservices;
 
 public interface CanDeposit {
-	void Deposit();
+	default void Deposit(Integer amount){
+		this.balance +=amount;
+	};
 }

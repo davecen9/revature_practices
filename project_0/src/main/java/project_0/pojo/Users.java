@@ -1,13 +1,11 @@
 package project_0.pojo;
 
-public class Users {
-	private Integer userid;
+public abstract class Users {
+	protected Integer userid;
 
-	private String firstname;
-	private String lastname;
-	private String SSN;
-	
-	
+	protected String firstname;
+	protected String lastname;
+	protected String SSN;
 	
 	public Integer getId() {
 		return userid;
@@ -32,12 +30,8 @@ public class Users {
 		return SSN;
 	}
 	public void setSSN(String SSN) {
-		SSN = SSN;
-	}
-
-	public Users(String firstname, String lastname, String SSN) {
-		this.firstname = firstname;
-		this.lastname = lastname;
 		this.SSN = SSN;
 	}
+
+
 }
