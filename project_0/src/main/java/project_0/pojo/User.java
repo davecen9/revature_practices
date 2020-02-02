@@ -1,16 +1,20 @@
 package project_0.pojo;
 
-public abstract class Users {
-	protected Integer userid;
+public abstract class User {
+	
+	protected String userid;
 
 	protected String firstname;
 	protected String lastname;
 	protected String SSN;
 	
-	public Integer getId() {
+	
+	
+	
+	public String getId() {
 		return userid;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.userid = id;
 	}
 	
