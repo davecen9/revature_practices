@@ -2,6 +2,8 @@ package project_0.pojo;
 
 import java.util.ArrayList;
 
+import project_0.pojo.Account.accountownershiptype;
+
 public abstract class Account {
 	
 	public enum accountownershiptype{
@@ -31,6 +33,23 @@ public abstract class Account {
 	protected Double creditlimit;
 	
 	
+	
+	
+	//general account constructor
+	 public Account(accountownershiptype type, String accountid, String loginid, String loginpassword, User ...users) {
+		 this.accountownershiptype = type;
+		 this.accountid = accountid; //needs to be auto generated
+		 this.loginid = loginid;
+		 this.loginpassword = loginpassword;
+		 for(User u:users) {
+			 this.users.add(u);
+		 }
+	 }
+	
+	
+	
+	
+	//getter and setter methods
 	
 	public accountownershiptype getAccountownershiptype() {
 		return accountownershiptype;

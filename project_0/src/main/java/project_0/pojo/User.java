@@ -10,6 +10,17 @@ public abstract class User {
 	
 	
 	
+	//general user constructor
+	
+	public User(String firstname, String lastname, String SSN) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.SSN = SSN;
+	}
+	
+	
+	
+	//getter and setter methods
 	
 	public String getId() {
 		return userid;
