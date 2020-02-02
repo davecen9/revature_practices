@@ -2,9 +2,9 @@ package project_0.pojo;
 
 import java.util.ArrayList;
 
-import project_0.pojo.Account.accountownershiptype;
+import bankservices.*;
 
-public abstract class Account {
+public abstract class Account implements CanCheckBalance, CanDeposit, CanClose{
 	
 	public enum accountownershiptype{
 		SINGLE,JOINT;
@@ -48,7 +48,26 @@ public abstract class Account {
 	
 	
 	
+	 
+	 
+	 //general account services
+	 public void CheckBalance() {
+		 System.out.println("Your account balance is "+ this.balance);
+	 }
+	 
+	 public void Deposit(Double amount) {
+		 this.balance += amount;
+		 System.out.println("Your new balance is "+ this.balance);
+	 }
+	 
+	 
+	 public void Close() {
+		 //add method to delete this accountid from the database
+		 System.out.println("Account is close");
+	 }
 	
+	 
+	 
 	//getter and setter methods
 	
 	public accountownershiptype getAccountownershiptype() {

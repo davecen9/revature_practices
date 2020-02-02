@@ -1,5 +1,5 @@
 package bankservices;
 
 public interface CanDeposit {
-	void Deposit(Integer amount);
+	void Deposit(Double amount);
 }

@@ -1,5 +1,5 @@
 package bankservices;
 
 public interface CanWithdraw {
-	void Withdraw(Integer amount);
+	void Withdraw(Double amount);
 }
