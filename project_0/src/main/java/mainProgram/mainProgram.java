@@ -1,7 +1,18 @@
 package mainProgram;
 
+import menus.*;
+import java.util.*;
+import java.io.*;
+
+
 public class mainProgram {
 	public static void main(String[] args) {
-		System.out.println("Welcome to the banking system");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		Menus.mainMenu();
+		
+		
 	}
+	
+	
+	
 }
