@@ -1,7 +1,7 @@
 package project_0.accounts;
 
-import project_0.abstract_models.Account;
-import project_0.abstract_models.User;
+import project_0.baseModels.Account;
+import project_0.baseModels.User;
 
 
 public class SavingAccount extends Account{

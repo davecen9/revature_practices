@@ -8,6 +8,7 @@ public class InputCheckUtil {
 	public static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	
 	public static String getString() {
+		while(true){
 		try {
 			String input = reader.readLine();
 			if(!input.isEmpty()) {
@@ -21,11 +22,12 @@ public class InputCheckUtil {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		}
 	}
 	
 	
 	public static Integer getInteger() {
+		while(true) {
 		try {
 			String input = reader.readLine();
 			if(!input.isEmpty()) {
@@ -40,12 +42,13 @@ public class InputCheckUtil {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+
 	
-	}
+	}}
 	
 	
 	public static Double getDouble() {
+		while(true) {
 		try {
 			String input = reader.readLine();
 			if(!input.isEmpty()) {
@@ -60,13 +63,13 @@ public class InputCheckUtil {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
-	
-	}
+			
+	}}
 	
 	
 	
 	public static String getString(int length) {
+		while(true) {
 		try {
 			String input = reader.readLine();
 			if(!input.isEmpty() && input.length()<=length) {
@@ -80,12 +83,35 @@ public class InputCheckUtil {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		
+	}}
+	
+	
+	
+	
+	public static String getfixedlengthString(int length) {
+		while(true) {
+		try {
+			String input = reader.readLine();
+			if(!input.isEmpty() && input.length()==length) {
+				return input;
+				
+			}
+			else{
+				System.out.println("Please enter valid values of length "+length+ " characters");
+			}
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		}
 	}
 	
 	
-	
 	public static Integer getInteger(Integer min, Integer max) {
+		while(true) {
 		try {
 			String input = reader.readLine();
 			if(!input.isEmpty()) {
@@ -102,12 +128,14 @@ public class InputCheckUtil {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
-	
+		
+		}
 	}
 	
 	
 	public static Double getDouble(Double min, Double max) {
+		
+		while(true) {
 		try {
 			String input = reader.readLine();
 			if(!input.isEmpty()) {
@@ -124,8 +152,8 @@ public class InputCheckUtil {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return null;
 	
-	}
+	
+	}}
 	
 }

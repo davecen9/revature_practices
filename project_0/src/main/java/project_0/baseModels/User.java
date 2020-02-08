@@ -1,4 +1,4 @@
-package project_0.abstract_models;
+package project_0.baseModels;
 
 public class User {
 	

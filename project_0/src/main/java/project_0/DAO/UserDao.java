@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import project_0.abstract_models.User;
+import project_0.baseModels.User;
 import project_0.utils.ConnectionUtil;
 
 
@@ -13,7 +13,7 @@ import project_0.utils.ConnectionUtil;
 public class UserDao {
 	
 	
-	private User extractUser(ResultSet result) throws SQLException{
+	private static User extractUser(ResultSet result) throws SQLException{
 		String userid = result.getString("userid");
 		String firstname = result.getString("firstname");
 		String lastname = result.getString("lastname");
@@ -24,7 +24,7 @@ public class UserDao {
 	
 	
 
-	public User createUser(User user) {
+	public static User createUser(User user) {
 		try(Connection connection = ConnectionUtil.getConnection()){
 
 			String sql = "INSERT INTO users (userid, firstname, lastname, SSN) VALUES (?,?,?,?) RETURNING*"; 
