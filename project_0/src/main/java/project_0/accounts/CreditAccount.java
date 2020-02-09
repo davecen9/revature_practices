@@ -9,8 +9,8 @@ public class CreditAccount extends Account{
 	Double creditlimit = 1000.0;
 	Double balance = 0.0;
 	
-	public CreditAccount(accountownershiptype type, String accountid, String loginid, String loginpassword, User ...users) {
-		super(type, loginpassword, loginpassword, loginpassword, users);
+	public CreditAccount(accounttype accounttype, accountownershiptype type,  User ...users) {
+		super(accounttype, type, users);
 	}
 	
 	

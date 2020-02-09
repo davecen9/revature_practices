@@ -2,26 +2,38 @@ package project_0.baseModels;
 
 public class User {
 	
-	protected String userid;
+	private String userid;
 
-	protected String firstname;
-	protected String lastname;
-	protected String SSN;
+	private String firstname;
+	private String lastname;
+	private String SSN;
+	private String password;
 	
 	
 	
 	//general user constructor
 	
-	public User(String userid, String firstname, String lastname, String SSN) {
+	public User(String userid, String firstname, String lastname, String SSN, String password) {
 		this.userid = userid;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.SSN = SSN;
+		this.password = password;
 	}
 	
 	
 	//getter and setter methods
 	
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
 	public String getUserID() {
 		return userid;
 	}

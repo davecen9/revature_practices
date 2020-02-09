@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import project_0.bankservices.*;
 
-public abstract class Account implements CanCheckBalance, CanDeposit, CanClose{
+public class Account implements CanCheckBalance, CanDeposit, CanClose{
 	
-	public enum accountownershiptype{
+	public static enum accountownershiptype{
 		SINGLE,JOINT;
 	}
 	
-	public enum accounttype{
+	public static enum accounttype{
 		CHECKING,SAVING,CREDIT;
 	}
 	
@@ -19,14 +19,9 @@ public abstract class Account implements CanCheckBalance, CanDeposit, CanClose{
 	protected accountownershiptype accountownershiptype;
 	
 	protected String accountid;
+	protected accounttype accounttype;
 	
 	protected ArrayList<User> users;
-	
-	protected String loginid;
-	
-	protected String loginpassword;
-	
-	protected accounttype accounttype;
 	
 	protected Double balance;
 	
@@ -36,16 +31,24 @@ public abstract class Account implements CanCheckBalance, CanDeposit, CanClose{
 	
 	
 	//general account constructor
-	 public Account(accountownershiptype type, String accountid, String loginid, String loginpassword, User ...users) {
+	 public Account( accounttype accounttype, accountownershiptype type,User ...users) {
 		 this.accountownershiptype = type;
-		 this.accountid = accountid; //needs to be auto generated
-		 this.loginid = loginid;
-		 this.loginpassword = loginpassword;
+		 this.accounttype = accounttype; //needs to be auto generated
 		 for(User u:users) {
 			 this.users.add(u);
 		 }
 	 }
 	
+	 
+	 public Account( String accountid, accounttype accounttype, accountownershiptype type,Double balance, Double creditlimit, ArrayList<User> userlist) {
+		 this.accountownershiptype = type;
+		 this.accounttype = accounttype; //needs to be auto generated
+		 this.users = userlist;
+		 }
+	
+	 
+	 
+	 
 	
 	
 	 
@@ -101,25 +104,6 @@ public abstract class Account implements CanCheckBalance, CanDeposit, CanClose{
 		this.accountid = accountid;
 	}
 
-
-	public String getLoginid() {
-		return loginid;
-	}
-
-
-	public void setLoginid(String loginid) {
-		this.loginid = loginid;
-	}
-
-
-	public String getLoginpassword() {
-		return loginpassword;
-	}
-
-
-	public void setLoginpassword(String loginpassword) {
-		this.loginpassword = loginpassword;
-	}
 
 
 	public accounttype getAccounttype() {
