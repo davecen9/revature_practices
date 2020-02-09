@@ -11,7 +11,10 @@ public class systemfunctions {
 	}
 	
 	public static void createUserAccount() {
-		System.out.println("Please enter user id");
+		System.out.println();
+		System.out.println("Welcome to the user accout creation menu...");
+		System.out.println();
+		System.out.println("Please enter your desired user id");
 		String userid = InputCheckUtil.getString();
 		
 		System.out.println();
