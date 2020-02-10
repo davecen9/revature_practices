@@ -76,4 +76,28 @@ public class UserDao {
 	}
 	
 	
+	public static Boolean varifyuser(String userid) {
+		try(Connection connection = ConnectionUtil.getConnection()){
+			String sql = "SELECT * FROM users WHERE userid = ?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, userid);
+			
+			ResultSet result = statement.executeQuery();
+			
+			if(result.next()) {
+				return true;
+			}
+			else {
+				return false;
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+	}
+	
 }

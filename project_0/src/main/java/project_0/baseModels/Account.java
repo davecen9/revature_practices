@@ -31,14 +31,20 @@ public class Account implements CanCheckBalance, CanDeposit, CanClose{
 	
 	
 	//general account constructor
-	 public Account( accounttype accounttype, accountownershiptype type,User ...users) {
+	 public Account( accounttype accounttype, accountownershiptype type, User ...user) {
 		 this.accountownershiptype = type;
 		 this.accounttype = accounttype; 
-		 for(User u:users) {
+		 for(User u: user) {
 			 this.users.add(u);
 		 }
 	 }
 	
+	 
+	 public Account( accounttype accounttype, accountownershiptype type, ArrayList<User> userlist) {
+		 this.accountownershiptype = type;
+		 this.accounttype = accounttype; 
+		 this.users = userlist;
+	 }
 	 
 	 public Account( String accountid, accounttype accounttype, accountownershiptype type,Double balance, Double creditlimit, ArrayList<User> userlist) {
 		 this.accountownershiptype = type;
@@ -46,7 +52,7 @@ public class Account implements CanCheckBalance, CanDeposit, CanClose{
 		 this.users = userlist;
 		 }
 	
-	 
+
 	 
 	 
 	

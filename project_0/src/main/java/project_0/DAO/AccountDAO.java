@@ -24,7 +24,6 @@ public class AccountDAO {
 		accountownershiptype accountownershiptype = project_0.baseModels.Account.accountownershiptype.valueOf(result1.getString(("accountownershiptype")));
 		Double balance = result1.getDouble("balance");
 		Double creditlimit = result1.getDouble("creditlimit");
-		ArrayList<User> users = userlist;
 		
 		return new Account(accountid, accounttype, accountownershiptype, balance, creditlimit,userlist);
 		
@@ -62,7 +61,10 @@ public class AccountDAO {
 			
 			
 			if(result1.next() && result2.next()) {
-				return extractAccount(result1,userlist);
+				Account newaccount = extractAccount(result1,userlist);
+				System.out.println("Your "+newaccount.getAccountownershiptype()+" "+newaccount.getAccounttype()+
+						" "+"account id: "+newaccount.getAccountid()+" has been successfully created!");
+				return newaccount;
 			}
 			
 			

@@ -1,5 +1,7 @@
 package project_0.accounts;
 
+import java.util.ArrayList;
+
 import project_0.bankservices.*;
 import project_0.baseModels.Account;
 import project_0.baseModels.User;
@@ -10,10 +12,10 @@ public class CheckingAccount extends Account implements CanWithdraw, CanTransfer
 	 Double creditlimit = 0.0;
 	 Double balance = 0.0;
 	 
-	 public CheckingAccount( accounttype accounttype,accountownershiptype type, User ...users) {
-		 super( accounttype,type, users);
-	 }
 
+	 public CheckingAccount( accounttype accounttype,accountownershiptype type, ArrayList<User> userlist) {
+		 super( accounttype,type, userlist);
+	 }
 	 
 	 //the withdraw service
 	 public void Withdraw(Double amount) {

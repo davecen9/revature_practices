@@ -1,7 +1,12 @@
 package project_0.menus;
 import java.io.*;
+import java.util.ArrayList;
+
+import project_0.accounts.CheckingAccount;
 import project_0.baseModels.*;
 import project_0.utils.InputCheckUtil;
+import project_0.DAO.*;
+
 
 public class BankAccountMainMenu {
 	public static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -30,12 +35,16 @@ public class BankAccountMainMenu {
 	
 	
 	
-	public static void checkingAccCreation(User u) {
+	public static Account checkingAccCreation(User u) {
 		System.out.println("Checking account allows you to perform daily transactions such as deposit"+
 	     ", withdraw and transfer money, please follow the instructions below to create your checking"+
 				" account. Press 0 anytime to go back");
 		Account.accounttype accounttype = Account.accounttype.CHECKING;
-		String user = u.getUserID();
+		Account.accountownershiptype accountownershiptype = Account.accountownershiptype.SINGLE;
+
+		ArrayList<User> userlist = new ArrayList<User>();
+		userlist.add(u);
+		
 		
 		System.out.println();
 		try {
@@ -44,18 +53,71 @@ public class BankAccountMainMenu {
 				
 				int selection = InputCheckUtil.getInteger(0,2);
 				if(selection ==1) {
-					Account.accountownershiptype accountownershipttype = Account.accountownershiptype.SINGLE;
+					System.out.println("Alright, you are creating a SINGLE account!");
 				}
 				else if (selection ==2) {
-					Account.accountownershiptype accountownershipttype = Account.accountownershiptype.JOINT;
+					System.out.println("Alright, you are creating a JOINT account!");
+					accountownershiptype = Account.accountownershiptype.JOINT;
+					userlist = getUserlist();
 				}
 				else if (selection ==0) {
 					main(null, u);
 				}
+				break;
 			}
-		}catch (Exception e) {
+			
+			}
+			catch (Exception e) {
 			e.printStackTrace();
 		}
-		}
+
+
+		Account account = new CheckingAccount(accounttype, accountownershiptype, userlist);
+		
+		return AccountDAO.createAccount(account);
 	}
+	
+
+	
+	public static ArrayList<User> getUserlist(){
+		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<User> userlist = new ArrayList<User>();
+		String username = null;
+		
+		while(true) {
+			System.out.println("Who else do you want to add into this bank account? Please enter "+
+			"their username, enter \"done\" when you are done");
+			
+			do {
+				username = InputCheckUtil.getString();
+				list.add(username); 
+				}
+			while(!username.equals("done"));
+			
+			
+			for(String s: list) {
+				if(UserDao.varifyuser(s) == false) {
+					System.out.println("User id " + username+" doesn't exist!");
+					
+				}
+				else {
+					userlist.add(UserDao.getUser(s));
+				}
+				
+			}
+			break;
+		}
+		
+		return userlist;
+	}
+		
+	
+	
+		
+	
+	public static void listAccounts(User u){
+		
+	
+	}
+}
 
