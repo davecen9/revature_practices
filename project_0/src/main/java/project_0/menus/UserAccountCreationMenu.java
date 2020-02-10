@@ -1,16 +1,11 @@
-package generalFunctions;
-import project_0.utils.*;
-import project_0.DAO.*;
-import project_0.baseModels.*;
+package project_0.menus;
 
+import project_0.DAO.UserDao;
+import project_0.baseModels.User;
+import project_0.utils.InputCheckUtil;
 
-public class systemfunctions {
-	
+public class UserAccountCreationMenu {
 	public static void main(String[] args) {
-		createUserAccount();
-	}
-	
-	public static void createUserAccount() {
 		String password;
 		System.out.println();
 		System.out.println("Welcome to the user accout creation menu...");
@@ -64,10 +59,6 @@ public class systemfunctions {
 		newuser = UserDao.createUser(newuser);
 		
 		System.out.println("Your user account "+userid+" has been successfully created!");
-		
+		}
 	}
-	
-	public static void createCheckingAcount() {
-		
-	}
-}
+

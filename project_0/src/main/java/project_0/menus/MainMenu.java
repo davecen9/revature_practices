@@ -1,10 +1,9 @@
 package project_0.menus;
 
-import generalFunctions.systemfunctions;
 import project_0.utils.InputCheckUtil;
 
-public class Menus {
-	public static void mainMenu() {
+public class MainMenu {
+	public static void main(String[] args) {
 		System.out.println("Welcome to the XXX banking system  ");
 		System.out.println();
 		System.out.println();
@@ -23,20 +22,12 @@ public class Menus {
 		int selection = InputCheckUtil.getInteger(1, 3);
 		switch(selection) {
 		case 1: System.out.println("nothing here yet"); break;
-		case 2: systemfunctions.createUserAccount(); break;
+		case 2: UserAccountCreationMenu.main(args);; break;
 		case 3: System.out.println("All the account representatives are busy at the moment, bye! :D");break;
 		}
 	}
 	
-	public static void bankaccountcreationmenu() {
-		System.out.println("What type of account do you need ?");
-		System.out.println();
-		System.out.println("#Press 1 for a Checking account");
-		System.out.println();
-		System.out.println("#Press 2 for a Credit account");
-		System.out.println();
-		System.out.println("#Press 3 for a Saving account");
-		System.out.println();
-		System.out.println("#Press 0 to go back");
-	}
+
+	
+	
 }
