@@ -8,7 +8,7 @@ public class UserLoginMenu {
 	public static User user;
 	public static String username;
 	public static void main(String[] args) {
-
+		
 
 	}
 	
@@ -33,7 +33,7 @@ public class UserLoginMenu {
 				if(password.equals(user.getPassword())){
 					System.out.println("Successfully logged in! Welcome "+user.getFirstname()+"!");
 					System.out.println();
-					afterloginmenu();
+					afterloginmenu(user);
 					break;
 				}
 				else {
@@ -46,7 +46,7 @@ public class UserLoginMenu {
 	
 	
 	
-	public static void afterloginmenu() {
+	public static void afterloginmenu(User u) {
 		System.out.println("Please choose what you want to do: ");
 		System.out.println();
 		System.out.println("1. view your accounts");
@@ -55,7 +55,7 @@ public class UserLoginMenu {
 		Integer selection = InputCheckUtil.getInteger(1,3);
 		switch (selection) {
 		case 1 : System.out.println("nothing here yet");break;
-		case 2 : createBankAccount();break;
+		case 2 : createBankAccount(user);break;
 		case 3 : System.out.println("nothing here yet"); break;
 		}
 		
@@ -64,7 +64,7 @@ public class UserLoginMenu {
 	
 	
 	
-	public static void createBankAccount() {
+	public static void createBankAccount(User user) {
 		System.out.println("Please decide what type of account do you want: ");
 		System.out.println();
 		System.out.println("1. Checking");

@@ -10,6 +10,36 @@ public class Account implements CanCheckBalance, CanDeposit, CanClose{
 		SINGLE,JOINT;
 	}
 	
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+
+
+	public void setUsers(ArrayList<User> users) {
+		this.users = users;
+	}
+
+
+	public int getAccountid() {
+		return accountid;
+	}
+
+
+	public void setAccountid(int accountid) {
+		this.accountid = accountid;
+	}
+
+
+	public accounttype getAccounttype() {
+		return accounttype;
+	}
+
+
+	public void setAccounttype(accounttype accounttype) {
+		this.accounttype = accounttype;
+	}
+
+
 	public static enum accounttype{
 		CHECKING,SAVING,CREDIT;
 	}
@@ -18,11 +48,32 @@ public class Account implements CanCheckBalance, CanDeposit, CanClose{
 
 	protected accountownershiptype accountownershiptype;
 	
-	protected String accountid;
+	protected int accountid;
+	
 	protected accounttype accounttype;
 	
 	protected ArrayList<User> users;
 	
+	public Double getBalance() {
+		return balance;
+	}
+
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
+
+
+	public Double getCreditlimit() {
+		return creditlimit;
+	}
+
+
+	public void setCreditlimit(Double creditlimit) {
+		this.creditlimit = creditlimit;
+	}
+
+
 	protected Double balance;
 	
 	protected Double creditlimit;
@@ -46,9 +97,12 @@ public class Account implements CanCheckBalance, CanDeposit, CanClose{
 		 this.users = userlist;
 	 }
 	 
-	 public Account( String accountid, accounttype accounttype, accountownershiptype type,Double balance, Double creditlimit, ArrayList<User> userlist) {
+	 public Account(int accountid, accounttype accounttype, accountownershiptype type,Double balance, Double creditlimit, ArrayList<User> userlist) {
+		 this.accountid = accountid;
 		 this.accountownershiptype = type;
 		 this.accounttype = accounttype; 
+		 this.balance = balance;
+		 this.creditlimit = creditlimit;
 		 this.users = userlist;
 		 }
 	
@@ -89,64 +143,10 @@ public class Account implements CanCheckBalance, CanDeposit, CanClose{
 	}
 	
 	
-	public ArrayList<User> getUsers() {
-		return users;
-		}
-		
-	
-	public void setUsers(User ...users) {
-		for(User u : users) {
-			this.users.add(u);
-		}
-		
-	}
-	
-	public String getAccountid() {
-		return accountid;
-	}
-
-
-	public void setAccountid(String accountid) {
-		this.accountid = accountid;
-	}
-
-
-
-	public accounttype getAccounttype() {
-		return accounttype;
-	}
-
-
-	public void setAccounttype(accounttype accounttype) {
-		this.accounttype = accounttype;
-	}
-
-
-	public Double getBalance() {
-		return balance;
-	}
 
 
 
 
-	public void setBalance(Double balance) {
-		this.balance = balance;
-	}
-
-
-	public Double getCreditlimit() {
-		return creditlimit;
-	}
-
-
-	public void setCreditlimit(Double creditlimit) {
-		this.creditlimit = creditlimit;
-	}
-
-
-	public void setUsers(ArrayList<User> users) {
-		this.users = users;
-	}
 
 
 

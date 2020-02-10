@@ -11,31 +11,36 @@ import project_0.DAO.*;
 public class BankAccountMainMenu {
 	public static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	public static int selection;
-	public static void main(String[] args, User u) {
-			
-			System.out.println("What type of account do you need ?");
-			System.out.println();
-			System.out.println("#Press 1 for a Checking account");
-			System.out.println();
-			System.out.println("#Press 2 for a Credit account");
-			System.out.println();
-			System.out.println("#Press 3 for a Saving account");
-			System.out.println();
-			System.out.println("#Press 0 to go back");
-			
-			selection = InputCheckUtil.getInteger(0,3);
-			switch (selection) {
-			case 0: System.out.println("nothing");
-			case 1: checkingAccCreation(u);
-			case 2: System.out.println("nothing");
-			case 3: System.out.println("nothing");
-			}
+	public static void main(String[] args) {
+		User user = new User("davecen9","fanliang","cen","294597053","294597053");//testing value
+		checkingAccCreation(user);//testing value
 		}
 		
 	
+	public static void bankAccountMenu(User u) {
+		
+		System.out.println("What type of account do you need ?");
+		System.out.println();
+		System.out.println("#Press 1 for a Checking account");
+		System.out.println();
+		System.out.println("#Press 2 for a Credit account");
+		System.out.println();
+		System.out.println("#Press 3 for a Saving account");
+		System.out.println();
+		System.out.println("#Press 0 to go back");
+		
+		selection = InputCheckUtil.getInteger(0,3);
+		switch (selection) {
+		case 0: System.out.println("nothing");
+		case 1: checkingAccCreation(u);
+		case 2: System.out.println("nothing");
+		case 3: System.out.println("nothing");
+		}
+	}
 	
 	
-	public static Account checkingAccCreation(User u) {
+	
+	public static Account checkingAccCreation(User user) {
 		System.out.println("Checking account allows you to perform daily transactions such as deposit"+
 	     ", withdraw and transfer money, please follow the instructions below to create your checking"+
 				" account. Press 0 anytime to go back");
@@ -43,15 +48,15 @@ public class BankAccountMainMenu {
 		Account.accountownershiptype accountownershiptype = Account.accountownershiptype.SINGLE;
 
 		ArrayList<User> userlist = new ArrayList<User>();
-		userlist.add(u);
+		userlist.add(user);
 		
 		
 		System.out.println();
-		try {
-			while(true) {
+	
 				System.out.println("Do you want a 1.SINGLE or 2.JOINT account? Please enter 1 or 2...");
 				
 				int selection = InputCheckUtil.getInteger(0,2);
+				
 				if(selection ==1) {
 					System.out.println("Alright, you are creating a SINGLE account!");
 				}
@@ -61,20 +66,16 @@ public class BankAccountMainMenu {
 					userlist = getUserlist();
 				}
 				else if (selection ==0) {
-					main(null, u);
+					bankAccountMenu(user);
 				}
-				break;
-			}
-			
-			}
-			catch (Exception e) {
-			e.printStackTrace();
-		}
+	
 
 
 		Account account = new CheckingAccount(accounttype, accountownershiptype, userlist);
-		
-		return AccountDAO.createAccount(account);
+		System.out.println("local account created");
+		account = AccountDAO.createAccount(account);
+		System.out.println("remote account created");
+		return account;
 	}
 	
 
@@ -115,7 +116,7 @@ public class BankAccountMainMenu {
 	
 		
 	
-	public static void listAccounts(User u){
+	public static void listAccounts(User user){
 		
 	
 	}

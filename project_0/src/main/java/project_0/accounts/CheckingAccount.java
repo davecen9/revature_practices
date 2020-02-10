@@ -5,15 +5,64 @@ import java.util.ArrayList;
 import project_0.bankservices.*;
 import project_0.baseModels.Account;
 import project_0.baseModels.User;
+import project_0.baseModels.Account.accountownershiptype;
+import project_0.baseModels.Account.accounttype;
 
 
 public class CheckingAccount extends Account implements CanWithdraw, CanTransfer{
-	 accounttype accounttype = Account.accounttype.CHECKING;
-	 Double creditlimit = 0.0;
-	 Double balance = 0.0;
 	 
 
-	 public CheckingAccount( accounttype accounttype,accountownershiptype type, ArrayList<User> userlist) {
+
+	 protected int accountid = 0;
+	 protected accounttype accounttype = Account.accounttype.CHECKING;
+	 protected Double creditlimit = 0.0;
+	 protected Double balance = 0.0;
+	 
+	 
+	 
+	 public int getAccountid() {
+		return accountid;
+	}
+
+	public void setAccountid(int accountid) {
+		this.accountid = accountid;
+	}
+	 
+	 
+	 
+	 
+	 public accounttype getAccounttype() {
+		return accounttype;
+	}
+
+	public void setAccounttype(accounttype accounttype) {
+		this.accounttype = accounttype;
+	}
+
+	public Double getCreditlimit() {
+		return creditlimit;
+	}
+
+	public void setCreditlimit(Double creditlimit) {
+		this.creditlimit = creditlimit;
+	}
+
+	public Double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
+
+	
+	 public CheckingAccount(int accountid, accounttype accounttype, accountownershiptype type,Double balance, Double creditlimit, ArrayList<User> userlist) {
+		 super(accountid, accounttype, type, balance, creditlimit,userlist);
+
+		 }
+	
+	
+	public CheckingAccount( accounttype accounttype,accountownershiptype type, ArrayList<User> userlist) {
 		 super( accounttype,type, userlist);
 	 }
 	 
