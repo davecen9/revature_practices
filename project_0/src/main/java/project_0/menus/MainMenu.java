@@ -21,7 +21,7 @@ public class MainMenu {
 		
 		int selection = InputCheckUtil.getInteger(1, 3);
 		switch(selection) {
-		case 1: System.out.println("nothing here yet"); break;
+		case 1: UserLoginMenu.loginSession(); break;
 		case 2: UserAccountCreationMenu.main(args);; break;
 		case 3: System.out.println("All the account representatives are busy at the moment, bye! :D");break;
 		}

@@ -32,12 +32,12 @@ public class UserAccountCreationMenu {
 		System.out.println("Next Step... ");
 		System.out.println();
 		
-		System.out.println("Please enter your SSN");
+		System.out.println("Please enter your 9 digit SSN");
 		String SSN = InputCheckUtil.getfixedlengthString(9);
 		System.out.println();
 		
 		while(true) {
-		System.out.println("Please create your password");
+		System.out.println("Please create your password, maximum length 15 characters");
 		password = InputCheckUtil.getString(15);
 		System.out.println();
 		
