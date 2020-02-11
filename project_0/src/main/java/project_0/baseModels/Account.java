@@ -106,7 +106,13 @@ public class Account implements CanCheckBalance, CanDeposit, CanClose{
 		 this.users = userlist;
 		 }
 	
-
+	 public Account(int accountid, accounttype accounttype, accountownershiptype type,Double balance, Double creditlimit) {
+		 this.accountid = accountid;
+		 this.accountownershiptype = type;
+		 this.accounttype = accounttype; 
+		 this.balance = balance;
+		 this.creditlimit = creditlimit;
+		 }
 	 
 	 
 	

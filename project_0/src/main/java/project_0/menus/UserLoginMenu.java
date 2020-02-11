@@ -1,6 +1,7 @@
 package project_0.menus;
 import project_0.utils.InputCheckUtil;
 import project_0.utils.ConnectionUtil;
+import project_0.DAO.AccountDAO;
 import project_0.DAO.UserDao;
 import project_0.baseModels.User;
 
@@ -54,7 +55,7 @@ public class UserLoginMenu {
 		System.out.println("3. close bank accounts");
 		Integer selection = InputCheckUtil.getInteger(1,3);
 		switch (selection) {
-		case 1 : System.out.println("nothing here yet");break;
+		case 1 : AccountDAO.listAccounts(user);break;
 		case 2 : createBankAccount(user);break;
 		case 3 : System.out.println("nothing here yet"); break;
 		}
@@ -81,7 +82,4 @@ public class UserLoginMenu {
 		
 	}
 	
-	public static void listAccounts(User user) {
-		
-	}
 }

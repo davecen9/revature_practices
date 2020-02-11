@@ -15,7 +15,8 @@ import project_0.utils.ConnectionUtil;
 public class AccountDAO {
 	
 	public static void main(String[] args) {
-//		User user = new User("davecen9","fanliang","cen","294597053","294597053");
+		User user = new User("davecen9","fanliang","cen","294597053","294597053");
+		listAccounts(user);
 //		ArrayList<User> userlist = new ArrayList<User>();
 //		userlist.add(user);
 //		Account checkingacc = new CheckingAccount(accounttype.CHECKING,accountownershiptype.SINGLE,userlist);
@@ -23,12 +24,12 @@ public class AccountDAO {
 	}
 	
 	
-	private static Account extractAccount(ResultSet result1, ArrayList<User> userlist)throws SQLException{
-		int accountid = result1.getInt("accountid");
-		accounttype accounttype = project_0.baseModels.Account.accounttype.valueOf(result1.getString("accounttype"));
-		accountownershiptype type = project_0.baseModels.Account.accountownershiptype.valueOf(result1.getString(("accountownershiptype")));
-		Double balance = result1.getDouble("balance");
-		Double creditlimit = result1.getDouble("creditlimit");
+	private static Account extractAccount(ResultSet result, ArrayList<User> userlist)throws SQLException{
+		int accountid = result.getInt("accountid");
+		accounttype accounttype = project_0.baseModels.Account.accounttype.valueOf(result.getString("accounttype"));
+		accountownershiptype type = project_0.baseModels.Account.accountownershiptype.valueOf(result.getString(("accountownershiptype")));
+		Double balance = result.getDouble("balance");
+		Double creditlimit = result.getDouble("creditlimit");
 		Account newaccount = new Account(accountid, accounttype, type, balance, creditlimit, userlist);
 		return newaccount;
 		
@@ -96,6 +97,7 @@ public class AccountDAO {
 	
 	
 	public static void listAccounts(User user){
+		ArrayList<Account> accountlist = new ArrayList<Account>();
 		try(Connection connection = ConnectionUtil.getConnection()){
 			
 			String sql = "select * from accounts where accountid in("+
@@ -104,13 +106,26 @@ public class AccountDAO {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, user.getUserID());
 			ResultSet result = statement.executeQuery();
-			if(result.next()) {
-				
+			while (result.next()) {
+				int accountid = result.getInt("accountid");
+				accounttype type1 = accounttype.valueOf(result.getString("accounttype"));
+				accountownershiptype type2 = accountownershiptype.valueOf(result.getString("accountownershiptype"));
+				Double balance = result.getDouble("balance");
+				Double creditlimit = result.getDouble("creditlimit");
+				accountlist.add(new Account(accountid,type1,type2, balance,creditlimit));
 			}
-			
 		}
+		
 		catch(SQLException e) {
 			e.printStackTrace();
+		}
+		
+		System.out.printf("%-10s  %-30s  |  %-20s |  %-20s   |%-20s", "Item","Account Ownership Type", "Account Category", "Account ID","Balance");
+		System.out.println();
+		for(Account a : accountlist) {
+			//System.out.printf("%i .%s %s Account id %i",accountlist.indexOf(a)+1, a.getAccountownershiptype().name(),a.getAccounttype().name(),a.getAccountid());
+			System.out.printf("%-10d  %-30s  |  %-20s |  %-20d   |%-20.2f", (accountlist.indexOf(a)+1),a.getAccountownershiptype().name(),a.getAccounttype().name(),a.getAccountid(), a.getBalance());
+			System.out.println();
 		}
 	
 	}
