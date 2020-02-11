@@ -23,8 +23,36 @@ public class AccountDAO {
 //		userlist.add(user);
 //		Account checkingacc = new CheckingAccount(accounttype.CHECKING,accountownershiptype.SINGLE,userlist);
 //		createAccount(checkingacc);
+//				String sql2 = "UPDATE accounts SET balance = ? WHERE accountid = "+1+";";
+//	System.out.println(sql2);
 	}
 	
+	
+	
+	
+	public static Boolean verifyaccount(int accountid) {
+		try(Connection connection = ConnectionUtil.getConnection()){
+			String sql = "SELECT * FROM accounts WHERE accountid =  ?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, accountid);
+			
+			ResultSet result = statement.executeQuery();
+			
+			if(result.next()) {
+				return true;
+			}
+			else {
+				return false;
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+	}
 	
 	private static Account extractAccount(ResultSet result, ArrayList<User> userlist)throws SQLException{
 		int accountid = result.getInt("accountid");
@@ -137,7 +165,7 @@ public class AccountDAO {
 		if(input ==0) {
 			UserLoginMenu.afterloginmenu(user);
 		}
-		else if (input <accountlist.size()) {
+		else if (input <=accountlist.size()) {
 			int accountidpara = accountlist.get(input-1).getAccountid();
 			AccountPage(user, accountidpara);
 		}
@@ -178,9 +206,9 @@ public class AccountDAO {
 			int selection = InputCheckUtil.getInteger(0,3);
 			switch (selection) {
 			case 0: listAccounts(user);
-			case 1: System.out.println("deposit");
-			case 2: System.out.println("deposit");
-			case 3: System.out.println("deposit");
+			case 1: deposit(user,accountidpara);
+			case 2: withdraw(user,accountidpara);
+			case 3: transfer(user,accountidpara);
 			}
 			
 		}
@@ -188,6 +216,173 @@ public class AccountDAO {
 			e.printStackTrace();
 		}
 	}
+
+
+	public static void deposit(User user, int accountidpara) {
+		Double amount = 0.0;
+		Double balance = 0.0;
+		try(Connection connection = ConnectionUtil.getConnection()){
+			System.out.println("Please enter your amount");
+			amount = InputCheckUtil.getDouble();
+			String sql1 = "SELECT balance FROM accounts Where accountid = ?;";
+			PreparedStatement statement1 = connection.prepareStatement(sql1);
+			statement1.setInt(1,accountidpara);
+			ResultSet result1 = statement1.executeQuery();
+			if(result1.next()) {
+				balance = result1.getDouble("balance");
+			}
+			balance +=amount;
+			String sql2 = "UPDATE accounts SET balance = ? WHERE accountid = ? returning*;";
+	
+			PreparedStatement statement2 = connection.prepareStatement(sql2);
+			statement2.setDouble(1, balance);
+			statement2.setInt(2, accountidpara);
+			ResultSet result2 = statement2.executeQuery();
+			if(result2.next()) {
+				System.out.println("Successfully deposited amount! Your new account balance is "+result2.getDouble("balance"));
+			}
+			
+			AccountPage(user, accountidpara);
+			
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	public static void withdraw(User user, int accountidpara) {
+		Double amount = 0.0;
+		Double balance = 0.0;
+		try(Connection connection = ConnectionUtil.getConnection()){
+			System.out.println("Please enter your amount");
+			amount = InputCheckUtil.getDouble();
+			String sql1 = "SELECT balance FROM accounts Where accountid = ?;";
+			PreparedStatement statement1 = connection.prepareStatement(sql1);
+			statement1.setInt(1,accountidpara);
+			ResultSet result1 = statement1.executeQuery();
+			if(result1.next()) {
+				balance = result1.getDouble("balance");
+			}
+			
+			
+			if(balance >=amount) {
+				balance -=amount;
+		
+			String sql2 = "UPDATE accounts SET balance = ? WHERE accountid = ? returning*;";
+	
+			PreparedStatement statement2 = connection.prepareStatement(sql2);
+			statement2.setDouble(1, balance);
+			statement2.setInt(2, accountidpara);
+			ResultSet result2 = statement2.executeQuery();
+			if(result2.next()) {
+				System.out.println("Successfully deposited amount! Your new account balance is "+result2.getDouble("balance"));
+			}
+			
+			AccountPage(user, accountidpara);
+			}
+			else {
+				System.out.println("Insufficient account balance, returning to menu");
+				AccountPage(user, accountidpara);
+			}
+
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void transfer(User user, int accountidpara) {
+		Double amount = 0.0;
+		Double initAccBalance = 0.0;
+		Double endAccBalance = 0.0;
+		String username = null;
+		int endAccountid = 0;
+
+		while(true) {
+			System.out.println("Please enter the account id you want to transfer money to...");
+			endAccountid = InputCheckUtil.getInteger();
+			if (verifyaccount(endAccountid)==false) {
+				System.out.println("End account id doesn't exist, please try again");
+			}
+			else {
+				System.out.println("Please confirm the end account id");
+				int confirmendaccount = InputCheckUtil.getInteger();
+				if(confirmendaccount!=endAccountid) {
+					System.out.println("Entered account ids don't match, please try again...");
+				}
+				else {
+					break;
+				}
+			}
+		}
+		
+		
+		
+		try(Connection connection = ConnectionUtil.getConnection()){
+			System.out.println("Please enter your amount");
+			amount = InputCheckUtil.getDouble();
+			String sql1 = "SELECT balance FROM accounts Where accountid = ?;";
+			PreparedStatement statement1 = connection.prepareStatement(sql1);
+			statement1.setInt(1,accountidpara);
+			ResultSet result1 = statement1.executeQuery();
+			if(result1.next()) {
+				initAccBalance = result1.getDouble("balance");
+			}
+			
+			
+			if(initAccBalance >=amount) {
+				initAccBalance -=amount;
+			}
+			else {
+				System.out.println("Insufficient account balance, returning to menu");
+				AccountPage(user, accountidpara);
+			}
+		
+			String sql2 = "UPDATE accounts SET balance = ? WHERE accountid = ? returning*;";
+	
+			PreparedStatement statement2 = connection.prepareStatement(sql2);
+			statement2.setDouble(1, initAccBalance);
+			statement2.setInt(2, accountidpara);
+			ResultSet result2 = statement2.executeQuery();
+			if(!result2.next()) {
+				System.out.println("Errors! Please try again.");
+				AccountPage(user, accountidpara);
+			}
+			
+			
+			String sql3 = "SELECT balance FROM accounts Where accountid = ?;";
+			PreparedStatement statement3 = connection.prepareStatement(sql3);
+			statement3.setInt(1,endAccountid);
+			ResultSet result3 = statement3.executeQuery();
+			if(result3.next()) {
+				endAccBalance = result3.getDouble("balance");
+			}
+			endAccBalance +=amount;
+			String sql4 = "UPDATE accounts SET balance = ? WHERE accountid = ? returning*;";
+	
+			PreparedStatement statement4 = connection.prepareStatement(sql4);
+			statement4.setDouble(1, endAccBalance);
+			statement4.setInt(2, endAccountid);
+			ResultSet result4 = statement4.executeQuery();
+			if(result4.next()) {
+				System.out.println("Successfully transfed amount! Your new account balance is "+result2.getDouble("balance"));
+				System.out.println("Redirecting to menu..");
+				AccountPage(user, accountidpara);
+			}
+			else {
+				System.out.println("Trasfer failed. Returning to the menu.");
+				AccountPage(user, accountidpara);
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+
 }
-
-
+}
