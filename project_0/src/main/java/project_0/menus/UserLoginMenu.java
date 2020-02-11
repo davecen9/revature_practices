@@ -53,11 +53,13 @@ public class UserLoginMenu {
 		System.out.println("1. view your accounts");
 		System.out.println("2. create bank accounts");
 		System.out.println("3. close bank accounts");
-		Integer selection = InputCheckUtil.getInteger(1,3);
+		System.out.println("0. log out");
+		Integer selection = InputCheckUtil.getInteger(0,3);
 		switch (selection) {
 		case 1 : AccountDAO.listAccounts(user);break;
 		case 2 : createBankAccount(user);break;
 		case 3 : System.out.println("nothing here yet"); break;
+		case 0 : System.out.println("You have successfully logged out!"); MainMenu.mainMenu();
 		}
 		
 	}

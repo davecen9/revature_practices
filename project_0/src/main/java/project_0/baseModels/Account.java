@@ -2,9 +2,9 @@ package project_0.baseModels;
 
 import java.util.ArrayList;
 
-import project_0.bankservices.*;
 
-public class Account implements CanCheckBalance, CanDeposit, CanClose{
+
+public class Account{
 	
 	public static enum accountownershiptype{
 		SINGLE,JOINT;

@@ -2,14 +2,14 @@ package project_0.accounts;
 
 import java.util.ArrayList;
 
-import project_0.bankservices.*;
+
 import project_0.baseModels.Account;
 import project_0.baseModels.User;
 import project_0.baseModels.Account.accountownershiptype;
 import project_0.baseModels.Account.accounttype;
 
 
-public class CheckingAccount extends Account implements CanWithdraw, CanTransfer{
+public class CheckingAccount extends Account {
 	 
 
 

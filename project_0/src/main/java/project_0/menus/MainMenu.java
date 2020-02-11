@@ -3,7 +3,8 @@ package project_0.menus;
 import project_0.utils.InputCheckUtil;
 
 public class MainMenu {
-	public static void main(String[] args) {
+	
+	public static void mainMenu() {
 		System.out.println("Welcome to the XXX banking system  ");
 		System.out.println();
 		System.out.println();
@@ -22,7 +23,7 @@ public class MainMenu {
 		int selection = InputCheckUtil.getInteger(1, 3);
 		switch(selection) {
 		case 1: UserLoginMenu.loginSession(); break;
-		case 2: UserAccountCreationMenu.main(args);; break;
+		case 2: UserAccountCreationMenu.createUserAccunt(); break;
 		case 3: System.out.println("All the account representatives are busy at the moment, bye! :D");break;
 		}
 	}
