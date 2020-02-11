@@ -59,6 +59,11 @@ public class UserAccountCreationMenu {
 		newuser = UserDao.createUser(newuser);
 		
 		System.out.println("Your user account "+userid+" has been successfully created!");
+		System.out.println();
+		System.out.println("Please log in from the main menu");
+		System.out.println();
+		System.out.println("Redirecting to main menu...");
+		MainMenu.main(args);
 		}
 	}
 
