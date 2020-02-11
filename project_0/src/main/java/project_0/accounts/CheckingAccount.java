@@ -13,10 +13,10 @@ public class CheckingAccount extends Account implements CanWithdraw, CanTransfer
 	 
 
 
-	 protected int accountid = 0;
-	 protected accounttype accounttype = Account.accounttype.CHECKING;
-	 protected Double creditlimit = 0.0;
-	 protected Double balance = 0.0;
+	 private int accountid = 0;
+	 private accounttype accounttype = Account.accounttype.CHECKING;
+	 private Double creditlimit = 0.0;
+	 private Double balance = 0.0;
 	 
 	 
 	 
@@ -27,8 +27,6 @@ public class CheckingAccount extends Account implements CanWithdraw, CanTransfer
 	public void setAccountid(int accountid) {
 		this.accountid = accountid;
 	}
-	 
-	 
 	 
 	 
 	 public accounttype getAccounttype() {

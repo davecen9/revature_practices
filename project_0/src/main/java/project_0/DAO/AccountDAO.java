@@ -15,11 +15,11 @@ import project_0.utils.ConnectionUtil;
 public class AccountDAO {
 	
 	public static void main(String[] args) {
-		User user = new User("davecen9","fanliang","cen","294597053","294597053");
-		ArrayList<User> userlist = new ArrayList<User>();
-		userlist.add(user);
-		Account checkingacc = new CheckingAccount(accounttype.CHECKING,accountownershiptype.SINGLE,userlist);
-		createAccount(checkingacc);
+//		User user = new User("davecen9","fanliang","cen","294597053","294597053");
+//		ArrayList<User> userlist = new ArrayList<User>();
+//		userlist.add(user);
+//		Account checkingacc = new CheckingAccount(accounttype.CHECKING,accountownershiptype.SINGLE,userlist);
+//		createAccount(checkingacc);
 	}
 	
 	
@@ -50,7 +50,7 @@ public class AccountDAO {
 			ArrayList<User> userlist = account.getUsers();
 			ResultSet result = statement.executeQuery();
 
-			
+			 
 			
 			if(result.next()) {
 			Account newaccount = extractAccount(result,userlist);
@@ -91,6 +91,28 @@ public class AccountDAO {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	
+	
+	public static void listAccounts(User user){
+		try(Connection connection = ConnectionUtil.getConnection()){
+			
+			String sql = "select * from accounts where accountid in("+
+					"select accountid from users_accounts where userid = ?);";
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, user.getUserID());
+			ResultSet result = statement.executeQuery();
+			if(result.next()) {
+				
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	
 	}
 }
 

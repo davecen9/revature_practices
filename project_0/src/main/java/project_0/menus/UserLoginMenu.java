@@ -70,16 +70,18 @@ public class UserLoginMenu {
 		System.out.println("1. Checking");
 		System.out.println("2. Credit");
 		System.out.println("3. Saving");
+		System.out.println("0. go back");
 		Integer selection = InputCheckUtil.getInteger(1,3);
 		switch (selection) {
 		case 1 : BankAccountMainMenu.checkingAccCreation(user); break;
-		case 2 : System.out.println("nothing here yet"); break;
-		case 3 : System.out.println("nothing here yet"); break;
+		case 2 : BankAccountMainMenu.creditAccCreation(user); break;
+		case 3 : BankAccountMainMenu.savingAccCreation(user); break;
+		case 4 : afterloginmenu(user);
 		}
 		
 	}
 	
-	public static void listAccounts() {
+	public static void listAccounts(User user) {
 		
 	}
 }
