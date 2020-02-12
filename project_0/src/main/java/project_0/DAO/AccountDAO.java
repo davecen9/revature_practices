@@ -204,14 +204,16 @@ public class AccountDAO {
 			System.out.println("1.Deposit");
 			System.out.println("2.Withdraw");
 			System.out.println("3.Transfer");
-			System.out.println("4.Close account");
-			int selection = InputCheckUtil.getInteger(0,4);
+			System.out.println("4.View Transactions");
+			System.out.println("5.Close account");
+			int selection = InputCheckUtil.getInteger(0,5);
 			switch (selection) {
 			case 0: listAccounts(user);
 			case 1: deposit(user,accountidpara);
 			case 2: withdraw(user,accountidpara);
 			case 3: transfer(user,accountidpara);
-			case 4: closeAccount(user,accountidpara);
+			case 4: getTransactions(user,accountidpara);
+			case 5: closeAccount(user,accountidpara);
 			}
 			
 		}
@@ -244,6 +246,16 @@ public class AccountDAO {
 			if(result2.next()) {
 				System.out.println("Successfully deposited amount! Your new account balance is "+result2.getDouble("balance"));
 			}
+			
+			
+			
+			String sql3 = "insert into transactions(initaccount ,endaccount,trxtype,trxamount ) values(?,?,?,?) RETURNING*;";
+			PreparedStatement statement3 = connection.prepareStatement(sql3);
+			statement3.setInt(1, accountidpara);
+			statement3.setInt(2, accountidpara);
+			statement3.setString(3,"deposit");
+			statement3.setDouble(4, amount);
+			statement3.executeQuery();
 			
 			AccountPage(user, accountidpara);
 			
@@ -285,6 +297,17 @@ public class AccountDAO {
 			if(result2.next()) {
 				System.out.println("Successfully deposited amount! Your new account balance is "+result2.getDouble("balance"));
 			}
+			
+			String sql3 = "insert into transactions(initaccount ,endaccount,trxtype,trxamount )"+ 
+					"values(?,?,?,?) RETURNING*";
+			PreparedStatement statement3 = connection.prepareStatement(sql3);
+			statement3.setInt(1, accountidpara);
+			statement3.setInt(2, accountidpara);
+			statement3.setString(3,"withdraw");
+			statement3.setDouble(4, amount);
+			statement3.executeQuery();
+			
+			
 			
 			AccountPage(user, accountidpara);
 			}
@@ -377,6 +400,17 @@ public class AccountDAO {
 			if(result4.next()) {
 				System.out.println("Successfully transfed amount! Your new account balance is "+result2.getDouble("balance"));
 				System.out.println("Redirecting to menu..");
+				
+				String sql5 = "insert into transactions(initaccount ,endaccount,trxtype,trxamount )"+ 
+						"values(?,?,?,?) RETURNING*;";
+				PreparedStatement statement5 = connection.prepareStatement(sql5);
+				statement5.setInt(1, accountidpara);
+				statement5.setInt(2, endAccountid);
+				statement5.setString(3,"transfer");
+				statement5.setDouble(4, amount);
+				statement5.executeQuery();
+				
+				
 				AccountPage(user, accountidpara);
 			}
 			else {
@@ -453,6 +487,32 @@ public class AccountDAO {
 				System.out.println("Please enter 1 or 2");
 			}
 		}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	
+	public static void getTransactions(User user, int accountidpara) {
+		try(Connection connection = ConnectionUtil.getConnection()){
+			int counter = 0;
+			String sql = "SELECT * FROM transactions WHERE endaccount = ?;";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, accountidpara);
+			ResultSet result = statement.executeQuery();
+			System.out.printf("%-5s | %-17s |%-17s |%-17s |%-17s |%-17s |%-25s", "Item","Transaction ID","Initial Account", "End Account", "Transaction Type","Amount","Created at");
+			System.out.println();
+			while(result.next()) {
+				System.out.printf("%-5s | %-17s |%-17s |%-17s |%-17s |%-17s |%-25s", ++counter, result.getInt("trx_id"),result.getInt("initaccount"),result.getInt("endaccount"),result.getString("trxtype"),result.getDouble("trxamount"),result.getTimestamp("created_at"));
+				System.out.println();
+			}
+			System.out.println();
+			System.out.println();
+			AccountPage(user, accountidpara);
 		}
 		catch(SQLException e) {
 			e.printStackTrace();

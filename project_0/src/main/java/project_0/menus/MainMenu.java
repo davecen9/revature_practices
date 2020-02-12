@@ -24,7 +24,7 @@ public class MainMenu {
 		switch(selection) {
 		case 1: UserLoginMenu.loginSession(); break;
 		case 2: UserAccountCreationMenu.createUserAccunt(); break;
-		case 3: System.out.println("All the account representatives are busy at the moment, bye! :D");break;
+		case 3: System.out.println("All the account representatives are busy at the moment, bye! :D");MainMenu.mainMenu();break;
 		}
 	}
 	
