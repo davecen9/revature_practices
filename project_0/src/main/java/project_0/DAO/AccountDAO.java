@@ -272,16 +272,23 @@ public class AccountDAO {
 		Double amount = 0.0;
 		Double balance = 0.0;
 		Double creditlimit = 0.0;
+		String accounttype = null;
 		try(Connection connection = ConnectionUtil.getConnection()){
 			System.out.println("Please enter your amount");
 			amount = InputCheckUtil.getDouble();
-			String sql1 = "SELECT balance, creditlimit FROM accounts Where accountid = ?;";
+			String sql1 = "SELECT balance, creditlimit,accounttype FROM accounts Where accountid = ?;";
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setInt(1,accountidpara);
 			ResultSet result1 = statement1.executeQuery();
 			if(result1.next()) {
 				balance = result1.getDouble("balance");
 				creditlimit = result1.getDouble("creditlimit");
+				accounttype = result1.getString("accounttype");
+			}
+			
+			
+			if(accounttype.equals("SAVING")) {
+				balance -= 5000;
 			}
 			
 			
