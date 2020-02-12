@@ -67,7 +67,7 @@ public class AccountDAO {
 	
 	
 	
-	public static Account createAccount (Account account) {
+	public static Account createAccount (User user, Account account) {
 		try(Connection connection = ConnectionUtil.getConnection()){
 			String sql = "INSERT INTO accounts(accounttype, accountownershiptype, balance, creditlimit) "
 					+ "VALUES(?,?,?,?) RETURNING *;";
@@ -88,6 +88,7 @@ public class AccountDAO {
 			System.out.println("Your "+newaccount.getAccountownershiptype()+" "+newaccount.getAccounttype()+
 					" "+"account id: "+newaccount.getAccountid()+" has been successfully created!");
 			createUserAccountRelation(newaccount);
+			AccountDAO.listAccounts(user);
 			return newaccount;
 			}
 			
@@ -203,12 +204,14 @@ public class AccountDAO {
 			System.out.println("1.Deposit");
 			System.out.println("2.Withdraw");
 			System.out.println("3.Transfer");
-			int selection = InputCheckUtil.getInteger(0,3);
+			System.out.println("4.Close account");
+			int selection = InputCheckUtil.getInteger(0,4);
 			switch (selection) {
 			case 0: listAccounts(user);
 			case 1: deposit(user,accountidpara);
 			case 2: withdraw(user,accountidpara);
 			case 3: transfer(user,accountidpara);
+			case 4: closeAccount(user,accountidpara);
 			}
 			
 		}
@@ -256,19 +259,21 @@ public class AccountDAO {
 	public static void withdraw(User user, int accountidpara) {
 		Double amount = 0.0;
 		Double balance = 0.0;
+		Double creditlimit = 0.0;
 		try(Connection connection = ConnectionUtil.getConnection()){
 			System.out.println("Please enter your amount");
 			amount = InputCheckUtil.getDouble();
-			String sql1 = "SELECT balance FROM accounts Where accountid = ?;";
+			String sql1 = "SELECT balance, creditlimit FROM accounts Where accountid = ?;";
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setInt(1,accountidpara);
 			ResultSet result1 = statement1.executeQuery();
 			if(result1.next()) {
 				balance = result1.getDouble("balance");
+				creditlimit = result1.getDouble("creditlimit");
 			}
 			
 			
-			if(balance >=amount) {
+			if(balance+creditlimit >=amount) {
 				balance -=amount;
 		
 			String sql2 = "UPDATE accounts SET balance = ? WHERE accountid = ? returning*;";
@@ -383,6 +388,74 @@ public class AccountDAO {
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
 
 }
+	
+	
+	
+	
+	public static void closeAccount(User user, int accountidpara) {
+		Double balance = 0.0;
+		try(Connection connection = ConnectionUtil.getConnection()){
+			System.out.println("Do you really want to close your account? 1.Yes 2.No");
+			int selection = InputCheckUtil.getInteger(1,2);
+		while(true) {
+			if(selection ==1) {
+				String sql = "SELECT balance FROM accounts WHERE accountid =?;";
+				PreparedStatement statement = connection.prepareStatement(sql);
+				statement.setInt(1, accountidpara);
+				ResultSet result = statement.executeQuery();
+				if(result.next()) {
+					balance = result.getDouble("balance");
+					if(balance!=0) {
+						System.out.println("Your account balance is not 0, please clear up your balance before closing your account.");
+						AccountPage(user,accountidpara);
+					}
+					else {
+						System.out.println("Please type in \"I want to close account "+accountidpara+"\" to confirm closing your account,"+
+					"enter \"exit\"to go back");
+						String input2 = InputCheckUtil.getString();
+						while(true) {
+							if(!input2.equals("I want to close account "+accountidpara)){
+								System.out.println("Doesn't match the confirmation string, please try again.");
+							}
+							else if(input2.equals("exit")){
+								AccountPage(user, accountidpara);
+							}
+							else if(input2.equals("I want to close account "+accountidpara)) {
+								String sql2 = "DELETE FROM users_accounts WHERE accountid = ? RETURNING *";
+								PreparedStatement statement2 = connection.prepareStatement(sql2);
+								statement2.setInt(1, accountidpara);
+								statement2.executeQuery();
+								
+								String sql3 = "DELETE FROM accounts WHERE accountid = ? RETURNING *";
+								PreparedStatement statement3 = connection.prepareStatement(sql3);
+								statement3.setInt(1, accountidpara);
+								statement3.executeQuery();
+								
+								System.out.println("Account "+accountidpara +" has been closed. Redirecting to menu.");
+								listAccounts(user);
+							}
+							else {
+								System.out.println("Please enter valid value.");
+							}
+						}
+					}
+				}
+				
+			}
+			else if(selection ==2) {
+				AccountPage(user,accountidpara);
+				break;
+			}
+			else {
+				System.out.println("Please enter 1 or 2");
+			}
+		}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

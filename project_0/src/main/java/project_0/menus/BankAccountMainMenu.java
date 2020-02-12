@@ -53,7 +53,7 @@ public class BankAccountMainMenu {
 
 		Account account = new CheckingAccount(accounttype, accountownershiptype, userlist);
 
-		account = AccountDAO.createAccount(account);
+		account = AccountDAO.createAccount(user, account);
 
 		return account;
 	}
@@ -93,7 +93,7 @@ public class BankAccountMainMenu {
 
 		Account account = new CreditAccount(accounttype, accountownershiptype, userlist);
 
-		account = AccountDAO.createAccount(account);
+		account = AccountDAO.createAccount(user, account);
 
 		return account;
 	}
@@ -133,7 +133,7 @@ public class BankAccountMainMenu {
 
 		Account account = new SavingAccount(accounttype, accountownershiptype, userlist);
 
-		account = AccountDAO.createAccount(account);
+		account = AccountDAO.createAccount(user, account);
 
 		return account;
 	}
