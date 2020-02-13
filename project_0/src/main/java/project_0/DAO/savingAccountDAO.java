@@ -261,7 +261,8 @@ public class savingAccountDAO {
 				
 				//System.out.println("power: "+power);
 				
-				updatedbalance = depositamount + (0.005 * power) + 50000;
+				////MOST IMPORTANT LINE IN THE ENTIRE PROGRAM
+				updatedbalance = depositamount + (0.05 * power) + 50000;
 				
 				//System.out.println("updatedbalance: "+updatedbalance);
 				String sql000 = "UPDATE accounts SET balance = ? WHERE accountid = ? returning*;";
