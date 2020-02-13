@@ -12,7 +12,7 @@ public class SavingAccount extends Account{
 	private int accountid = 0;
 	private accounttype accountype = Account.accounttype.SAVING;
 	private Double creditlimit = 0.0;
-	private Double balance = 5000.0;
+	private Double balance = 50000.0;
 
 
 	public int getAccountid() {
