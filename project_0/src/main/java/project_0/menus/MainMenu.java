@@ -5,7 +5,7 @@ import project_0.utils.InputCheckUtil;
 public class MainMenu {
 	
 	public static void mainMenu() {
-		System.out.println("Welcome to the XXX banking system  ");
+		System.out.println("Welcome to the  Gold Minsec");
 		System.out.println();
 		System.out.println();
 		System.out.println("................Main Menu.................");
