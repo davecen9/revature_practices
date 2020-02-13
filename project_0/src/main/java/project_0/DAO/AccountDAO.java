@@ -54,6 +54,31 @@ public class AccountDAO {
 		
 	}
 	
+	
+	
+	
+	public static Boolean verifyUser(String userid) {
+		try(Connection connection = ConnectionUtil.getConnection()){
+			String sql = "SELECT * FROM users WHERE userid =  ?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, userid);
+		
+		ResultSet result = statement.executeQuery();
+		
+		if(result.next()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	catch(SQLException e) {
+		e.printStackTrace();
+		return null;
+	}
+	}
+	
 	private static Account extractAccount(ResultSet result, ArrayList<User> userlist)throws SQLException{
 		int accountid = result.getInt("accountid");
 		accounttype accounttype = project_0.baseModels.Account.accounttype.valueOf(result.getString("accounttype"));
@@ -128,6 +153,7 @@ public class AccountDAO {
 	
 	
 	public static void listAccounts(User user){
+		savingAccountDAO.updateSavings(user);
 		ArrayList<Account> accountlist = new ArrayList<Account>();
 		try(Connection connection = ConnectionUtil.getConnection()){
 			
@@ -178,6 +204,7 @@ public class AccountDAO {
 
 
 	public static void AccountPage(User user,int accountidpara) {
+		savingAccountDAO.updateSavings(user);
 		try(Connection connection = ConnectionUtil.getConnection()){
 			String sql = "SELECT * FROM accounts WHERE accountid = ?;";
 			PreparedStatement statement =connection.prepareStatement(sql);
@@ -229,8 +256,6 @@ public class AccountDAO {
 		String accounttype = null;
 		
 		try(Connection connection = ConnectionUtil.getConnection()){
-			System.out.println("Please enter your amount");
-			amount = InputCheckUtil.getDouble();
 			String sql1 = "SELECT balance, accounttype FROM accounts Where accountid = ?;";
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setInt(1,accountidpara);
@@ -241,9 +266,11 @@ public class AccountDAO {
 			}
 			
 			if(accounttype.equals("SAVING")){
-				savingAccountDAO.deposit(user, accountidpara);
+				savingAccountDAO.savingDeposit(user, accountidpara);
 			}
 			else {
+				System.out.println("Please enter your amount");
+				amount = InputCheckUtil.getDouble();
 				
 				balance +=amount;
 				String sql2 = "UPDATE accounts SET balance = ? WHERE accountid = ? returning*;";
@@ -361,8 +388,7 @@ public class AccountDAO {
 		
 		
 		try(Connection connection = ConnectionUtil.getConnection()){
-			System.out.println("Please enter your amount");
-			amount = InputCheckUtil.getDouble();
+
 			String sql1 = "SELECT balance,accounttype FROM accounts Where accountid = ?;";
 			PreparedStatement statement1 = connection.prepareStatement(sql1);
 			statement1.setInt(1,accountidpara);
@@ -380,6 +406,8 @@ public class AccountDAO {
 			}
 			
 			else {
+				System.out.println("Please enter your amount");
+				amount = InputCheckUtil.getDouble();
 				while(true) {
 					System.out.println("Please enter the account id you want to transfer money to...");
 					endAccountid = InputCheckUtil.getInteger();
@@ -497,6 +525,12 @@ public class AccountDAO {
 								AccountPage(user, accountidpara);
 							}
 							else if(input2.equals("I want to close account "+accountidpara)) {
+								String sql1 = "DELETE FROM transactions WHERE endaccount =? RETURNING *";
+								PreparedStatement statement1 = connection.prepareStatement(sql1);
+								statement1.setInt(1, accountidpara);
+								statement1.executeQuery();
+								
+								
 								String sql2 = "DELETE FROM users_accounts WHERE accountid = ? RETURNING *";
 								PreparedStatement statement2 = connection.prepareStatement(sql2);
 								statement2.setInt(1, accountidpara);

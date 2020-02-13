@@ -31,24 +31,11 @@ public class savingAccountDAO {
 
 
 
-	public static void deposit(User user, int accountidpara) {
+	public static void savingDeposit(User user, int accountidpara) {
 		
 		Double amount = 0.0;
 		Double balance = 0.0;
 		try(Connection connection = ConnectionUtil.getConnection()){
-			
-			while(true) {
-				System.out.println("Please enter your amount, the minimum deposit amount is $50,000");
-				amount = InputCheckUtil.getDouble();
-				if(amount<50000) {
-					System.out.println("The minimum deposit amount is $50,000, please try again");
-				}
-				else {
-					break;
-				}
-			}
-			
-			
 			String sql0 = "SELECT * FROM transactions WHERE endaccount = ? and trxtype = 'deposit';";
 			PreparedStatement statement0 = connection.prepareStatement(sql0);
 			statement0.setInt(1, accountidpara);
@@ -61,7 +48,22 @@ public class savingAccountDAO {
 			}
 			
 			else {
-			
+				
+				while(true) {
+					System.out.println("Please enter your amount, the minimum deposit amount is $50,000");
+					amount = InputCheckUtil.getDouble();
+					if(amount>=49999.98) {
+						break;
+					}
+					else if(amount <49999.98){
+						System.out.println("The minimum deposit amount is $50,000, please try again");
+					}
+					else {
+						System.out.println("error");
+					}
+				}
+				
+				
 				
 				String sql1 = "SELECT balance FROM accounts Where accountid = ?;";
 				PreparedStatement statement1 = connection.prepareStatement(sql1);
@@ -95,7 +97,7 @@ public class savingAccountDAO {
 				if(result3.next()) {
 					transaction_id = result3.getInt("trx_id");
 				}
-				System.out.println("Your transaction id is "+transaction_id +", saving account user must keep this number to withdraw money.");
+				System.out.println("Your transaction id is "+transaction_id +" please keep it for future reference");
 				
 				AccountDAO.AccountPage(user, accountidpara);
 				
@@ -169,7 +171,24 @@ public class savingAccountDAO {
 			statement3.setDouble(4, amount);
 			statement3.executeQuery();
 			
-			AccountDAO.closeAccount(user, accountidpara);
+			//closing account
+			String sql4 = "DELETE FROM transactions WHERE endaccount =? RETURNING *";
+			PreparedStatement statement4 = connection.prepareStatement(sql4);
+			statement4.setInt(1, accountidpara);
+			statement4.executeQuery();
+			
+			
+			String sql5 = "DELETE FROM users_accounts WHERE accountid = ? RETURNING *";
+			PreparedStatement statement5 = connection.prepareStatement(sql5);
+			statement5.setInt(1, accountidpara);
+			statement5.executeQuery();
+			
+			String sql6 = "DELETE FROM accounts WHERE accountid = ? RETURNING *";
+			PreparedStatement statement6 = connection.prepareStatement(sql6);
+			statement6.setInt(1, accountidpara);
+			statement6.executeQuery();
+			
+			System.out.println("Account "+accountidpara +" has been closed. Redirecting to menu.");
 			
 			AccountDAO.listAccounts(user);
 			}
@@ -242,7 +261,7 @@ public class savingAccountDAO {
 				
 				//System.out.println("power: "+power);
 				
-				updatedbalance = depositamount + (0.05 * power) + 50000;
+				updatedbalance = depositamount + (0.005 * power) + 50000;
 				
 				//System.out.println("updatedbalance: "+updatedbalance);
 				String sql000 = "UPDATE accounts SET balance = ? WHERE accountid = ? returning*;";

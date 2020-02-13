@@ -1,5 +1,6 @@
 package project_0.menus;
 
+import project_0.DAO.AccountDAO;
 import project_0.DAO.UserDao;
 import project_0.baseModels.User;
 import project_0.utils.InputCheckUtil;
@@ -7,12 +8,28 @@ import project_0.utils.InputCheckUtil;
 public class UserAccountCreationMenu {
 
 		public static void createUserAccunt() {
+			String userid;
 			String password;
+			
 			System.out.println();
 			System.out.println("Welcome to the user accout creation menu...");
 			System.out.println();
-			System.out.println("Please enter your desired user id");
-			String userid = InputCheckUtil.getString();
+			
+			
+			
+			
+			while(true) {
+				System.out.println("Please enter your desired user id");
+				userid = InputCheckUtil.getString();
+				if(AccountDAO.verifyUser(userid)) {
+					System.out.println("This userid has been taken, please try another one");
+					
+				}
+				else {
+					break;
+				}
+			}
+			
 			
 			System.out.println();
 			System.out.println("Next Step... ");
