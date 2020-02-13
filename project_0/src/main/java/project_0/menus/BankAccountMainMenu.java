@@ -103,7 +103,7 @@ public class BankAccountMainMenu {
 	
 	public static Account savingAccCreation(User user) {
 		System.out.println("Saving account allows you to earn interest while putting money in the bank, "+
-	"minimum balance is $5000");
+	"minimum balance is $50000");
 		Account.accounttype accounttype = Account.accounttype.SAVING;
 		Account.accountownershiptype accountownershiptype = Account.accountownershiptype.SINGLE;
 
